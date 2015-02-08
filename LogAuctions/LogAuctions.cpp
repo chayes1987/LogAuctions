@@ -22,6 +22,13 @@ int _tmain(int argc, _TCHAR* argv[]){
 
 	cout << "Subscribed to all commands & events..." << endl << endl;
 
+	while (true){
+		zmq::message_t update;
+		subscriber.recv(&update);
+		string message = string(static_cast<char*>(update.data()), update.size());
+		cout << message << endl;
+	}
+
 	return 0;
 }
 
