@@ -1,8 +1,12 @@
 #include "stdafx.h"
 #include <zmq.hpp>
 #include <iostream>
+#include <fstream>
+#include <Windows.h>
 
 using namespace std;
+
+int recordOutput(string message);
 
 int _tmain(int argc, _TCHAR* argv[]){
 	zmq::context_t context(1);
@@ -27,8 +31,18 @@ int _tmain(int argc, _TCHAR* argv[]){
 		subscriber.recv(&update);
 		string message = string(static_cast<char*>(update.data()), update.size());
 		cout << message << endl;
+		recordOutput(message);
 	}
 
 	return 0;
 }
 
+int recordOutput(string message){
+	SYSTEMTIME time;
+	ofstream myfile;
+	myfile.open("auction1.log", ios_base::app);
+	GetLocalTime(&time);
+	myfile << message << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << endl;
+	myfile.close();
+	return 0;
+}
