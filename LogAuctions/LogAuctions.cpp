@@ -11,16 +11,17 @@ int recordOutput(string message);
 int _tmain(int argc, _TCHAR* argv[]){
 	zmq::context_t context(1);
 	zmq::socket_t subscriber(context, ZMQ_SUB);
-	subscriber.connect("tcp://172.31.32.20:1001");
-	subscriber.connect("tcp://172.31.32.22:1010");
-	subscriber.connect("tcp://172.31.32.21:1011");
-	subscriber.connect("tcp://172.31.32.23:1100");
-	subscriber.connect("tcp://172.31.32.29:1101");
-	subscriber.connect("tcp://172.31.32.23:1110");
-	subscriber.connect("tcp://172.31.32.23:1111");
-	subscriber.connect("tcp://172.31.32.24:2000");
-	subscriber.connect("tcp://172.31.32.25:2001");
-	subscriber.connect("tcp://172.31.32.28:2010");
+	subscriber.connect("tcp://172.31.32.20:2000");
+	subscriber.connect("tcp://172.31.32.21:2100");
+	subscriber.connect("tcp://172.31.32.22:2200");
+	subscriber.connect("tcp://172.31.32.23:2300");
+	subscriber.connect("tcp://172.31.32.23:2350");
+	subscriber.connect("tcp://172.31.32.23:2360");
+	subscriber.connect("tcp://172.31.32.23:2370");
+	subscriber.connect("tcp://172.31.32.24:2400");
+	subscriber.connect("tcp://172.31.32.25:2500");
+	subscriber.connect("tcp://172.31.32.28:2800");
+	subscriber.connect("tcp://172.31.32.29:2900");
 	subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 
 	cout << "Subscribed to all commands & events..." << endl << endl;
