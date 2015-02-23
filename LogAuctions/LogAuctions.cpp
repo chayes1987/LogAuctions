@@ -40,7 +40,7 @@ int _tmain(int argc, _TCHAR* argv[]){
 int recordOutput(string message){
 	SYSTEMTIME time;
 	ofstream myfile;
-	myfile.open("auction1.log", ios_base::app);
+	myfile.open("auctions.log", ios_base::app);
 	GetLocalTime(&time);
 	myfile << message << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << endl;
 	myfile.close();
