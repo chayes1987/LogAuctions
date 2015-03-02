@@ -3,7 +3,18 @@
 #include <iostream>
 #include <fstream>
 #include <Windows.h>
+#include <msclr\marshal_cppstd.h>
 
+/*
+	Setting up 0mq in VS2013 -> http://lists.zeromq.org/pipermail/zeromq-dev/2013-July/022136.html
+	The documentation was referred to for 0mq usage -> http://api.zeromq.org/2-1:zmq-cpp
+	Config file -> http://www.codeproject.com/Articles/21036/Working-with-Configuration-Files-app-config-in-C-C
+				   http://stackoverflow.com/questions/16732789/system-a-namespace-with-this-name-does-not-exist
+				   http://stackoverflow.com/questions/946813/c-cli-converting-from-systemstring-to-stdstring
+				   http://www.codeproject.com/Questions/542628/Addingplusapp-configplustoplusaplusC-b-b-fCLIpl
+*/
+
+using namespace System::Configuration;
 using namespace std;
 
 int recordOutput(string message);
@@ -11,20 +22,14 @@ int recordOutput(string message);
 int _tmain(int argc, _TCHAR* argv[]){
 	zmq::context_t context(1);
 	zmq::socket_t subscriber(context, ZMQ_SUB);
-	subscriber.connect("tcp://172.31.32.20:2000");
-	subscriber.connect("tcp://172.31.32.21:2100");
-	subscriber.connect("tcp://172.31.32.22:2200");
-	subscriber.connect("tcp://172.31.32.23:2300");
-	subscriber.connect("tcp://172.31.32.23:2350");
-	subscriber.connect("tcp://172.31.32.23:2360");
-	subscriber.connect("tcp://172.31.32.23:2370");
-	subscriber.connect("tcp://172.31.32.24:2400");
-	subscriber.connect("tcp://172.31.32.25:2500");
-	subscriber.connect("tcp://172.31.32.28:2800");
-	subscriber.connect("tcp://172.31.32.29:2900");
-	subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 
-	cout << "Subscribed to all commands & events..." << endl << endl;
+	for each(System::String ^address in ConfigurationManager::AppSettings){
+		string addr = msclr::interop::marshal_as<std::string>(ConfigurationManager::AppSettings[address]);
+		subscriber.connect(addr.c_str());
+	}
+
+	subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
+	cout << "SUB: All commands & events..." << endl;
 
 	while (true){
 		zmq::message_t update;
