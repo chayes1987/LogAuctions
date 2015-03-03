@@ -12,12 +12,14 @@
 				   http://stackoverflow.com/questions/16732789/system-a-namespace-with-this-name-does-not-exist
 				   http://stackoverflow.com/questions/946813/c-cli-converting-from-systemstring-to-stdstring
 				   http://www.codeproject.com/Questions/542628/Addingplusapp-configplustoplusaplusC-b-b-fCLIpl
+	ParseStrinbg -> http://stackoverflow.com/questions/18800796/c-get-string-between-two-delimiter-string
 */
 
 using namespace System::Configuration;
 using namespace std;
 
 int recordOutput(string message);
+string parseMessage(string message, string startStr, string endStr);
 
 int _tmain(int argc, _TCHAR* argv[]){
 	zmq::context_t context(1);
@@ -45,9 +47,16 @@ int _tmain(int argc, _TCHAR* argv[]){
 int recordOutput(string message){
 	SYSTEMTIME time;
 	ofstream myfile;
-	myfile.open("auctions.log", ios_base::app);
+	string id = parseMessage(message, "<id>", "</id>");
+	myfile.open("auctions" + id + ".log", ios_base::app);
 	GetLocalTime(&time);
 	myfile << message << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << endl;
 	myfile.close();
 	return 0;
+}
+
+string parseMessage(string message, string startStr, string endStr){
+	unsigned first = message.find(startStr) + startStr.length();
+	unsigned last = message.find(endStr);
+	return message.substr(first, last - first);
 }
