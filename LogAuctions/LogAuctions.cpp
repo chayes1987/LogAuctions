@@ -48,9 +48,9 @@ int recordOutput(string message){
 	SYSTEMTIME time;
 	ofstream myfile;
 	string id = parseMessage(message, "<id>", "</id>");
-	myfile.open("auctions" + id + ".log", ios_base::app);
+	myfile.open("auction_" + id + ".log", ios_base::app);
 	GetLocalTime(&time);
-	myfile << message << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << endl;
+	myfile << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << message << endl;
 	myfile.close();
 	return 0;
 }
