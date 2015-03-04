@@ -2,6 +2,7 @@
 #include <zmq.hpp>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 #include <Windows.h>
 #include <msclr\marshal_cppstd.h>
 
@@ -18,7 +19,7 @@
 using namespace System::Configuration;
 using namespace std;
 
-int recordOutput(string message);
+void recordOutput(string message);
 string parseMessage(string message, string startStr, string endStr);
 
 int _tmain(int argc, _TCHAR* argv[]){
@@ -44,15 +45,16 @@ int _tmain(int argc, _TCHAR* argv[]){
 	return 0;
 }
 
-int recordOutput(string message){
-	SYSTEMTIME time;
+void recordOutput(string message){
+	char date[10];
+	char time[10];
+	_strdate_s(date);
+	_strtime_s(time);
 	ofstream myfile;
 	string id = parseMessage(message, "<id>", "</id>");
 	myfile.open("auction_" + id + ".log", ios_base::app);
-	GetLocalTime(&time);
-	myfile << " " << time.wHour << ":" << time.wMinute << ":" << time.wSecond << message << endl;
+	myfile << date << " " << time << " " << message << endl;
 	myfile.close();
-	return 0;
 }
 
 string parseMessage(string message, string startStr, string endStr){
