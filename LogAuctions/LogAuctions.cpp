@@ -27,7 +27,8 @@ int _tmain(int argc, _TCHAR* argv[]){
 	zmq::socket_t subscriber(context, ZMQ_SUB);
 
 	for each(System::String ^address in ConfigurationManager::AppSettings){
-		string addr = msclr::interop::marshal_as<std::string>(ConfigurationManager::AppSettings[address]);
+		string addr = msclr::interop::marshal_as<std::string>(
+			ConfigurationManager::AppSettings[address]);
 		subscriber.connect(addr.c_str());
 	}
 
