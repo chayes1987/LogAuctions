@@ -13,13 +13,13 @@
 				   http://stackoverflow.com/questions/16732789/system-a-namespace-with-this-name-does-not-exist
 				   http://stackoverflow.com/questions/946813/c-cli-converting-from-systemstring-to-stdstring
 				   http://www.codeproject.com/Questions/542628/Addingplusapp-configplustoplusaplusC-b-b-fCLIpl
-	ParseStrinbg -> http://stackoverflow.com/questions/18800796/c-get-string-between-two-delimiter-string
+	ParseString -> http://stackoverflow.com/questions/18800796/c-get-string-between-two-delimiter-string
 */
 
 using namespace System::Configuration;
 using namespace std;
 
-void recordOutput(string message);
+void writeToLogFile(string message);
 string parseMessage(string message, string startStr, string endStr);
 
 int _tmain(int argc, _TCHAR* argv[]){
@@ -40,13 +40,13 @@ int _tmain(int argc, _TCHAR* argv[]){
 		subscriber.recv(&update);
 		string message = string(static_cast<char*>(update.data()), update.size());
 		cout << message << endl;
-		recordOutput(message);
+		writeToLogFile(message);
 	}
 
 	return 0;
 }
 
-void recordOutput(string message){
+void writeToLogFile(string message){
 	char date[10];
 	char time[10];
 	_strdate_s(date);
