@@ -2,11 +2,6 @@
 This is the log auctions service for my FYP. It is written in C++. It uses a 0mq binding.
 It is responsible for monitoring all auctions.
 
-## Project Setup
-
-sudo apt-get install g++
-sudo chmod -R o+rwx Debug/
-
 ## License
 
 None
